@@ -115,4 +115,16 @@ public class H2DB {
         return aspirante;
     }
 
+    public static void eliminarAspirantePorCedula(String cedula) {
+        try {
+            String sql = "DELETE FROM aspirantes WHERE cedula = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, cedula);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -61,6 +61,15 @@ public class BolsaEmpleo {
         System.out.println("Aspirante agregado exitosamente.");
     }
 
+    public String agregarAspirante2(Aspirante aspirante) {
+        try {
+            H2DB.insertarAspirante(aspirante);
+            return "Aspirante agregado exitosamente.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error al agregar el aspirante.";
+        }
+    }
 
     public List<Aspirante> obtenerAspirantes() {
         List<Aspirante> aspirantes = new ArrayList<>();
@@ -122,6 +131,20 @@ public class BolsaEmpleo {
         System.out.println("------------------------------"); // Línea divisoria
     }
 
+    public String mostrarInformacionDetallada3(Aspirante aspirante) {
+        StringBuilder info = new StringBuilder();
+        info.append("Información detallada del aspirante:\n");
+        info.append("Cédula: ").append(aspirante.getCedula()).append("\n");
+        info.append("Nombre: ").append(aspirante.getNombre()).append("\n");
+        info.append("Edad: ").append(aspirante.getEdad()).append("\n");
+        info.append("Experiencia en años: ").append(aspirante.getExperiencia()).append("\n");
+        info.append("Profesión: ").append(aspirante.getProfesion()).append("\n");
+        info.append("Teléfono: ").append(aspirante.getTelefono()).append("\n");
+        info.append("------------------------------\n"); // Línea divisoria
+        return info.toString();
+    }
+
+
     public void buscarPorNombre(Scanner scanner) {
         System.out.print("Ingrese el nombre del aspirante: ");
         String nombre = scanner.nextLine();
@@ -172,12 +195,26 @@ public class BolsaEmpleo {
         for (int i = 0; i < aspirantes.size(); i++) {
             if (aspirantes.get(i).getCedula().equals(cedula)) {
                 aspirantes.remove(i);
+                H2DB.eliminarAspirantePorCedula(cedula);
                 System.out.println("Aspirante contratado y eliminado de la lista.");
                 return;
             }
         }
         System.out.println("No se encontró ningún aspirante con esa cédula.");
     }
+
+    public String contratarAspirante2(String cedula) {
+        List<Aspirante> aspirantes = obtenerAspirantes();
+        for (int i = 0; i < aspirantes.size(); i++) {
+            if (aspirantes.get(i).getCedula().equals(cedula)) {
+                aspirantes.remove(i);
+                H2DB.eliminarAspirantePorCedula(cedula);
+                return "Aspirante contratado y eliminado de la lista.";
+            }
+        }
+        return "No se encontró ningún aspirante con esa cédula.";
+    }
+
 
     public void eliminarPorExperiencia(Scanner scanner) {
         System.out.print("Ingrese la cantidad mínima de años de experiencia: ");
@@ -221,5 +258,94 @@ public class BolsaEmpleo {
         System.out.println("Aspirante más joven:");
         mostrarInformacionDetallada2(aspiranteMasJoven);
     }
+
+    public String buscarAspirantesPorNombre(String nombre) {
+        List<Aspirante> aspirantes = obtenerAspirantes();
+        StringBuilder infoAspirantes = new StringBuilder();
+        boolean encontrado = false;
+        for (Aspirante aspirante : aspirantes) {
+            if (aspirante.getNombre().equalsIgnoreCase(nombre)) {
+                infoAspirantes.append(mostrarInformacionDetallada3(aspirante));
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            infoAspirantes.append("No se encontró ningún aspirante con ese nombre.");
+        }
+        return infoAspirantes.toString();
+    }
+
+    public String ordenarAspirantesPorExperiencia() {
+        List<Aspirante> aspirantes = H2DB.consultarAspirantes();
+        aspirantes.sort(Comparator.comparingInt(Aspirante::getExperiencia));
+        StringBuilder infoAspirantes = new StringBuilder("Aspirantes ordenados por experiencia:\n");
+        for (Aspirante aspirante : aspirantes) {
+            infoAspirantes.append(mostrarInformacionDetallada3(aspirante));
+        }
+        return infoAspirantes.toString();
+    }
+
+    public String ordenarAspirantesPorEdad() {
+        List<Aspirante> aspirantes = H2DB.consultarAspirantes();
+        aspirantes.sort(Comparator.comparingInt(Aspirante::getEdad));
+        StringBuilder infoAspirantes = new StringBuilder("Aspirantes ordenados por edad:\n");
+        for (Aspirante aspirante : aspirantes) {
+            infoAspirantes.append(mostrarInformacionDetallada3(aspirante));
+        }
+        return infoAspirantes.toString();
+    }
+
+    public String ordenarAspirantesPorProfesion() {
+        List<Aspirante> aspirantes = H2DB.consultarAspirantes();
+        aspirantes.sort(Comparator.comparing(Aspirante::getProfesion));
+        StringBuilder infoAspirantes = new StringBuilder("Aspirantes ordenados por profesión:\n");
+        for (Aspirante aspirante : aspirantes) {
+            infoAspirantes.append(mostrarInformacionDetallada3(aspirante));
+        }
+        return infoAspirantes.toString();
+    }
+
+    public String obtenerCedulasAspirantes() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
+        StringBuilder cedulas = new StringBuilder("Cédulas de aspirantes:\n");
+        for (Aspirante aspirante : aspirantes) {
+            cedulas.append(aspirante.getCedula()).append("\n");
+        }
+        return cedulas.toString();
+    }
+
+    public String eliminarAspirantesPorExperiencia(int minExperiencia) {
+        try {
+            List<Aspirante> aspirantes = obtenerAspirantes();
+
+            aspirantes.removeIf(aspirante -> aspirante.getExperiencia() < minExperiencia);
+
+            StringBuilder result = new StringBuilder("Aspirantes con al menos " + minExperiencia + " años de experiencia eliminados:\n");
+            for (Aspirante aspirante : aspirantes) {
+                result.append(mostrarInformacionDetallada3(aspirante));
+            }
+
+            return result.toString();
+        } catch (NumberFormatException e) {
+            return "La experiencia mínima debe ser un número válido.";
+        }
+    }
+
+    public double calcularPromedioEdadAspirantes() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
+
+        if (aspirantes.isEmpty()) {
+            return 0.0;
+        }
+
+        int sumaEdades = 0;
+        for (Aspirante aspirante : aspirantes) {
+            sumaEdades += aspirante.getEdad();
+        }
+
+        return (double) sumaEdades / aspirantes.size();
+    }
+
+
 
 }
