@@ -1,0 +1,96 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"e77f9fb4-4a61-48b8-818a-5a925fe1b76c\" name=\"Changes\" comment=\"Was complete the different tasks to the project.\">\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/org/example/AppI.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/bolsaEmpleo.mv.db\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/bolsaEmpleo.mv.db\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/BolsaEmpleos/BolsaEmpleo.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/BolsaEmpleos/BolsaEmpleo.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/org/example/database/H2DB.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/org/example/database/H2DB.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 3\n}</component>\n  <component name=\"ProjectId\" id=\"2W8XJ5Fiigrrjvzt7Z0oQefl903\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"git-widget-placeholder\": \"master\",\n    \"last_opened_file_path\": \"/Volumes/T7/Programming/Universidad/Java/Universidad_Bolsa_Empleo\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"project.structure.last.edited\": \"Modules\",\n    \"project.structure.proportion\": \"0.0\",\n    \"project.structure.side.proportion\": \"0.0\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RunManager\" selected=\"Application.AppI\">\n    <configuration name=\"App\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.example.App\" />\n      <module name=\"bolsaEmpleo\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"org.example.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"AppI\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"org.example.AppI\" />\n      <module name=\"bolsaEmpleo\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"org.example.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.AppI\" />\n        <item itemvalue=\"Application.App\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"e77f9fb4-4a61-48b8-818a-5a925fe1b76c\" name=\"Changes\" comment=\"\" />\n      <created>1696115150676</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1696115150676</updated>\n      <workItem from=\"1696115150678\" duration=\"1356000\" />\n      <workItem from=\"1696117543239\" duration=\"5736000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Was complete the different tasks to the project.\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1696120746883</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1696120746883</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"2\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"Was complete the different tasks to the project.\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Was complete the different tasks to the project.\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision c3932952f7760c9a19f96e577b671f63bad50ea1)
++++ b/.idea/workspace.xml	(date 1696183535462)
+@@ -4,12 +4,9 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="e77f9fb4-4a61-48b8-818a-5a925fe1b76c" name="Changes" comment="Was complete the different tasks to the project.">
+-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/AppI.java" afterDir="false" />
++    <list default="true" id="e77f9fb4-4a61-48b8-818a-5a925fe1b76c" name="Changes" comment="Was add the UI to the project.">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/bolsaEmpleo.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/bolsaEmpleo.mv.db" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BolsaEmpleos/BolsaEmpleo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BolsaEmpleos/BolsaEmpleo.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/database/H2DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/database/H2DB.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -25,6 +22,7 @@
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="UPDATE_TYPE" value="REBASE" />
+   </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 3
+@@ -46,8 +44,8 @@
+     "node.js.selected.package.eslint": "(autodetect)",
+     "node.js.selected.package.tslint": "(autodetect)",
+     "project.structure.last.edited": "Modules",
+-    "project.structure.proportion": "0.0",
+-    "project.structure.side.proportion": "0.0",
++    "project.structure.proportion": "0.15",
++    "project.structure.side.proportion": "0.2",
+     "vue.rearranger.settings.migration": "true"
+   }
+ }]]></component>
+@@ -65,7 +63,7 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="AppI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++    <configuration name="AppI" type="Application" factoryName="Application" nameIsGenerated="true">
+       <option name="MAIN_CLASS_NAME" value="org.example.AppI" />
+       <module name="bolsaEmpleo" />
+       <extension name="coverage">
+@@ -80,7 +78,6 @@
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="Application.AppI" />
+         <item itemvalue="Application.App" />
+       </list>
+     </recent_temporary>
+@@ -94,7 +91,7 @@
+       <option name="presentableId" value="Default" />
+       <updated>1696115150676</updated>
+       <workItem from="1696115150678" duration="1356000" />
+-      <workItem from="1696117543239" duration="5736000" />
++      <workItem from="1696117543239" duration="8103000" />
+     </task>
+     <task id="LOCAL-00001" summary="Was complete the different tasks to the project.">
+       <option name="closed" value="true" />
+@@ -104,7 +101,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1696120746883</updated>
+     </task>
+-    <option name="localTasksCounter" value="2" />
++    <task id="LOCAL-00002" summary="Was add the UI to the project.">
++      <option name="closed" value="true" />
++      <created>1696123491504</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1696123491504</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -112,6 +117,7 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Was complete the different tasks to the project." />
+-    <option name="LAST_COMMIT_MESSAGE" value="Was complete the different tasks to the project." />
++    <MESSAGE value="Was add the UI to the project." />
++    <option name="LAST_COMMIT_MESSAGE" value="Was add the UI to the project." />
+   </component>
+ </project>
+\ No newline at end of file
