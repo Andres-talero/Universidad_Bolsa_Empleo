@@ -11,7 +11,7 @@ import java.util.List;
 import org.example.aspirantes.Aspirante;
 
 public class H2DB {
-    private static final String URL = "jdbc:h2:./bolsaempleo";
+    private static final String URL = "jdbc:h2:./bolsaEmpleo";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
@@ -19,13 +19,10 @@ public class H2DB {
 
     public static void inicializarBaseDatos() {
         try {
-            // Cargar el controlador de la base de datos H2
             Class.forName("org.h2.Driver");
 
-            // Establecer la conexión a la base de datos (si no existe, se creará automáticamente)
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            // Crear la tabla de aspirantes si no existe
             crearTablaAspirantes();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -96,4 +93,26 @@ public class H2DB {
         }
         return aspirantes;
     }
+
+    public static Aspirante consultarAspirantePorCedula(String cedula) {
+        Aspirante aspirante = null;
+        try {
+            String sql = "SELECT * FROM aspirantes WHERE cedula = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, cedula);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String nombre = resultSet.getString("nombre");
+                int edad = resultSet.getInt("edad");
+                int experiencia = resultSet.getInt("experiencia");
+                String profesion = resultSet.getString("profesion");
+                String telefono = resultSet.getString("telefono");
+                aspirante = new Aspirante(cedula, nombre, edad, experiencia, profesion, telefono);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aspirante;
+    }
+
 }

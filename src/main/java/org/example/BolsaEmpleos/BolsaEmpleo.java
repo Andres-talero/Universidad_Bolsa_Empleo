@@ -1,5 +1,9 @@
 package org.example.BolsaEmpleos;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,72 +11,30 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.example.aspirantes.Aspirante;
+import org.example.database.H2DB;
 
 public class BolsaEmpleo {
-    private List<Aspirante> aspirantes = new ArrayList<>();
+    private Connection connection;
 
-    public static void main(String[] args) {
-        BolsaEmpleo bolsa = new BolsaEmpleo();
+    public BolsaEmpleo(Connection connection) {
+        this.connection = connection;
+        crearTablaAspirantes();
+    }
 
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            System.out.println("\nMenú de opciones:");
-            System.out.println("1. Agregar nuevo aspirante");
-            System.out.println("2. Mostrar cédulas de aspirantes");
-            System.out.println("3. Mostrar información detallada de un aspirante");
-            System.out.println("4. Buscar aspirante por nombre");
-            System.out.println("5. Ordenar aspirantes por experiencia");
-            System.out.println("6. Ordenar aspirantes por edad");
-            System.out.println("7. Ordenar aspirantes por profesión");
-            System.out.println("8. Contratar un aspirante");
-            System.out.println("9. Eliminar aspirantes con menos experiencia");
-            System.out.println("10. Promedio de edad de los aspirantes");
-            System.out.println("0. Salir");
-            System.out.print("Ingrese su opción: ");
-            int opcion = scanner.nextInt();
-            scanner.nextLine(); // Consume la nueva línea después del número
-
-            switch (opcion) {
-                case 1:
-                    bolsa.agregarAspirante(scanner);
-                    break;
-                case 2:
-                    bolsa.mostrarCedulas();
-                    break;
-                case 3:
-                    bolsa.mostrarInformacionDetallada(scanner);
-                    break;
-                case 4:
-                    bolsa.buscarPorNombre(scanner);
-                    break;
-                case 5:
-                    bolsa.ordenarPorExperiencia();
-                    break;
-                case 6:
-                    bolsa.ordenarPorEdad();
-                    break;
-                case 7:
-                    bolsa.ordenarPorProfesion();
-                    break;
-                case 8:
-                    bolsa.contratarAspirante(scanner);
-                    break;
-                case 9:
-                    bolsa.eliminarPorExperiencia(scanner);
-                    break;
-                case 10:
-                    bolsa.promedioEdadAspirantes();
-                    break;
-                case 0:
-                    System.out.println("¡Adiós!");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Opción no válida, por favor ingrese un número válido.");
-                    break;
-            }
+    private void crearTablaAspirantes() {
+        try {
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS aspirantes (" +
+                    "cedula VARCHAR(255) PRIMARY KEY," +
+                    "nombre VARCHAR(255)," +
+                    "edad INT," +
+                    "experiencia INT," +
+                    "profesion VARCHAR(255)," +
+                    "telefono VARCHAR(255)" +
+                    ")";
+            PreparedStatement preparedStatement = connection.prepareStatement(createTableSQL);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,7 +45,7 @@ public class BolsaEmpleo {
         String nombre = scanner.nextLine();
         System.out.print("Ingrese la edad: ");
         int edad = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume la nueva línea después del número
         System.out.print("Ingrese la experiencia en años: ");
         int experiencia = scanner.nextInt();
         scanner.nextLine();
@@ -93,12 +55,37 @@ public class BolsaEmpleo {
         String telefono = scanner.nextLine();
 
         Aspirante aspirante = new Aspirante(cedula, nombre, edad, experiencia, profesion, telefono);
-        aspirantes.add(aspirante);
+
+        H2DB.insertarAspirante(aspirante);
 
         System.out.println("Aspirante agregado exitosamente.");
     }
 
+
+    public List<Aspirante> obtenerAspirantes() {
+        List<Aspirante> aspirantes = new ArrayList<>();
+        try {
+            String selectSQL = "SELECT * FROM aspirantes";
+            PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String cedula = resultSet.getString("cedula");
+                String nombre = resultSet.getString("nombre");
+                int edad = resultSet.getInt("edad");
+                int experiencia = resultSet.getInt("experiencia");
+                String profesion = resultSet.getString("profesion");
+                String telefono = resultSet.getString("telefono");
+                Aspirante aspirante = new Aspirante(cedula, nombre, edad, experiencia, profesion, telefono);
+                aspirantes.add(aspirante);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return aspirantes;
+    }
+
     public void mostrarCedulas() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
         System.out.println("Cédulas de aspirantes:");
         for (Aspirante aspirante : aspirantes) {
             System.out.println(aspirante.getCedula());
@@ -108,28 +95,41 @@ public class BolsaEmpleo {
     public void mostrarInformacionDetallada(Scanner scanner) {
         System.out.print("Ingrese la cédula del aspirante: ");
         String cedula = scanner.nextLine();
-        for (Aspirante aspirante : aspirantes) {
-            if (aspirante.getCedula().equals(cedula)) {
-                System.out.println("Información detallada del aspirante:");
-                System.out.println("Cédula: " + aspirante.getCedula());
-                System.out.println("Nombre: " + aspirante.getNombre());
-                System.out.println("Edad: " + aspirante.getEdad());
-                System.out.println("Experiencia en años: " + aspirante.getExperiencia());
-                System.out.println("Profesión: " + aspirante.getProfesion());
-                System.out.println("Teléfono: " + aspirante.getTelefono());
-                return;
-            }
+
+        Aspirante aspirante = H2DB.consultarAspirantePorCedula(cedula);
+
+        if (aspirante != null) {
+            System.out.println("Información detallada del aspirante:");
+            System.out.println("Cédula: " + aspirante.getCedula());
+            System.out.println("Nombre: " + aspirante.getNombre());
+            System.out.println("Edad: " + aspirante.getEdad());
+            System.out.println("Experiencia en años: " + aspirante.getExperiencia());
+            System.out.println("Profesión: " + aspirante.getProfesion());
+            System.out.println("Teléfono: " + aspirante.getTelefono());
+        } else {
+            System.out.println("No se encontró ningún aspirante con esa cédula.");
         }
-        System.out.println("No se encontró ningún aspirante con esa cédula.");
+    }
+
+    public void mostrarInformacionDetallada2(Aspirante aspirante) {
+        System.out.println("Información detallada del aspirante:");
+        System.out.println("Cédula: " + aspirante.getCedula());
+        System.out.println("Nombre: " + aspirante.getNombre());
+        System.out.println("Edad: " + aspirante.getEdad());
+        System.out.println("Experiencia en años: " + aspirante.getExperiencia());
+        System.out.println("Profesión: " + aspirante.getProfesion());
+        System.out.println("Teléfono: " + aspirante.getTelefono());
+        System.out.println("------------------------------"); // Línea divisoria
     }
 
     public void buscarPorNombre(Scanner scanner) {
         System.out.print("Ingrese el nombre del aspirante: ");
         String nombre = scanner.nextLine();
+        List<Aspirante> aspirantes = obtenerAspirantes();
         boolean encontrado = false;
         for (Aspirante aspirante : aspirantes) {
             if (aspirante.getNombre().equalsIgnoreCase(nombre)) {
-                System.out.println("Cédula: " + aspirante.getCedula());
+                mostrarInformacionDetallada2(aspirante);
                 encontrado = true;
             }
         }
@@ -139,23 +139,36 @@ public class BolsaEmpleo {
     }
 
     public void ordenarPorExperiencia() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
         Collections.sort(aspirantes, Comparator.comparingInt(Aspirante::getExperiencia));
-        System.out.println("Aspirantes ordenados por experiencia.");
+        System.out.println("Aspirantes ordenados por experiencia:");
+        for (Aspirante aspirante : aspirantes) {
+            mostrarInformacionDetallada2(aspirante);
+        }
     }
 
     public void ordenarPorEdad() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
         Collections.sort(aspirantes, Comparator.comparingInt(Aspirante::getEdad));
-        System.out.println("Aspirantes ordenados por edad.");
+        System.out.println("Aspirantes ordenados por edad:");
+        for (Aspirante aspirante : aspirantes) {
+            mostrarInformacionDetallada2(aspirante);
+        }
     }
 
     public void ordenarPorProfesion() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
         Collections.sort(aspirantes, Comparator.comparing(Aspirante::getProfesion));
-        System.out.println("Aspirantes ordenados por profesión.");
+        System.out.println("Aspirantes ordenados por profesión:");
+        for (Aspirante aspirante : aspirantes) {
+            mostrarInformacionDetallada2(aspirante);
+        }
     }
 
     public void contratarAspirante(Scanner scanner) {
         System.out.print("Ingrese la cédula del aspirante que desea contratar: ");
         String cedula = scanner.nextLine();
+        List<Aspirante> aspirantes = obtenerAspirantes();
         for (int i = 0; i < aspirantes.size(); i++) {
             if (aspirantes.get(i).getCedula().equals(cedula)) {
                 aspirantes.remove(i);
@@ -170,11 +183,13 @@ public class BolsaEmpleo {
         System.out.print("Ingrese la cantidad mínima de años de experiencia: ");
         int minExperiencia = scanner.nextInt();
         scanner.nextLine();
+        List<Aspirante> aspirantes = obtenerAspirantes();
         aspirantes.removeIf(aspirante -> aspirante.getExperiencia() < minExperiencia);
         System.out.println("Aspirantes con menos experiencia eliminados.");
     }
 
     public void promedioEdadAspirantes() {
+        List<Aspirante> aspirantes = obtenerAspirantes();
         if (aspirantes.isEmpty()) {
             System.out.println("No hay aspirantes en la lista.");
             return;
@@ -186,4 +201,25 @@ public class BolsaEmpleo {
         double promedio = (double) sumaEdades / aspirantes.size();
         System.out.println("Promedio de edad de los aspirantes: " + promedio);
     }
+
+    public void consultarAspiranteMasJoven() {
+        List<Aspirante> aspirantes = H2DB.consultarAspirantes();
+
+        if (aspirantes.isEmpty()) {
+            System.out.println("No hay aspirantes en la lista.");
+            return;
+        }
+
+        Aspirante aspiranteMasJoven = aspirantes.get(0);
+
+        for (Aspirante aspirante : aspirantes) {
+            if (aspirante.getEdad() < aspiranteMasJoven.getEdad()) {
+                aspiranteMasJoven = aspirante;
+            }
+        }
+
+        System.out.println("Aspirante más joven:");
+        mostrarInformacionDetallada2(aspiranteMasJoven);
+    }
+
 }
