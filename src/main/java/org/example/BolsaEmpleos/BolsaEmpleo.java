@@ -45,7 +45,7 @@ public class BolsaEmpleo {
         String nombre = scanner.nextLine();
         System.out.print("Ingrese la edad: ");
         int edad = scanner.nextInt();
-        scanner.nextLine(); // Consume la nueva línea después del número
+        scanner.nextLine();
         System.out.print("Ingrese la experiencia en años: ");
         int experiencia = scanner.nextInt();
         scanner.nextLine();
