@@ -140,8 +140,8 @@ public class AppI extends JFrame implements ActionListener {
         String telefono = telefonoField.getText();
 
         Aspirante aspirante = new Aspirante(cedula, nombre, edad, experiencia, profesion, telefono);
-        bolsa.agregarAspirante2(aspirante);
-        outputArea.setText("Aspirante agregado exitosamente.");
+        String result = bolsa.agregarAspirante2(aspirante);
+        outputArea.setText(result);
     }
 
     private void mostrarCedulas() {
@@ -172,14 +172,14 @@ public class AppI extends JFrame implements ActionListener {
 
     private void contratarAspirante() {
         String cedula = cedulaField.getText();
-        bolsa.contratarAspirante2(cedula);
-        outputArea.setText("Aspirante contratado y eliminado de la lista.");
+        String resultado = bolsa.contratarAspirante2(cedula);
+        outputArea.setText(resultado);
     }
 
     private void eliminarPorExperiencia() {
         int minExperiencia = Integer.parseInt(experienciaField.getText());
-        bolsa.eliminarAspirantesPorExperiencia(minExperiencia);
-        outputArea.setText("Aspirantes con menos experiencia eliminados.");
+        String resultado = bolsa.eliminarAspirantesPorExperiencia(minExperiencia);
+        outputArea.setText(resultado);
     }
 
     private void calcularPromedioEdad() {

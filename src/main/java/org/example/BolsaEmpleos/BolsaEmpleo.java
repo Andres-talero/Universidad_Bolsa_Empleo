@@ -64,7 +64,7 @@ public class BolsaEmpleo {
     public String agregarAspirante2(Aspirante aspirante) {
         try {
             H2DB.insertarAspirante(aspirante);
-            return "Aspirante agregado exitosamente.";
+            return "Aspirante agregado exitosamente:\n" + mostrarInformacionDetallada3(aspirante);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error al agregar el aspirante.";
@@ -205,24 +205,54 @@ public class BolsaEmpleo {
 
     public String contratarAspirante2(String cedula) {
         List<Aspirante> aspirantes = obtenerAspirantes();
+        Aspirante aspiranteEliminado = null;
+
         for (int i = 0; i < aspirantes.size(); i++) {
             if (aspirantes.get(i).getCedula().equals(cedula)) {
-                aspirantes.remove(i);
+                aspiranteEliminado = aspirantes.remove(i);
                 H2DB.eliminarAspirantePorCedula(cedula);
-                return "Aspirante contratado y eliminado de la lista.";
+                break;
             }
         }
-        return "No se encontró ningún aspirante con esa cédula.";
-    }
 
+        if (aspiranteEliminado != null) {
+            return "Aspirante contratado y eliminado de la lista:\n" + mostrarInformacionDetallada3(aspiranteEliminado);
+        } else {
+            return "No se encontró ningún aspirante con esa cédula.";
+        }
+    }
 
     public void eliminarPorExperiencia(Scanner scanner) {
         System.out.print("Ingrese la cantidad mínima de años de experiencia: ");
         int minExperiencia = scanner.nextInt();
         scanner.nextLine();
+
         List<Aspirante> aspirantes = obtenerAspirantes();
-        aspirantes.removeIf(aspirante -> aspirante.getExperiencia() < minExperiencia);
+        List<Aspirante> aspirantesAEliminar = new ArrayList<>();
+
+        for (Aspirante aspirante : aspirantes) {
+            if (aspirante.getExperiencia() < minExperiencia) {
+                aspirantesAEliminar.add(aspirante);
+            }
+        }
+
+        for (Aspirante aspirante : aspirantesAEliminar) {
+            String mensajeEliminacion = eliminarAspirante(aspirante.getCedula());
+            System.out.println(mensajeEliminacion);
+            aspirantes.remove(aspirante);
+        }
+
         System.out.println("Aspirantes con menos experiencia eliminados.");
+    }
+
+    private String eliminarAspirante(String cedula) {
+        Aspirante aspirante = H2DB.consultarAspirantePorCedula(cedula);
+        if (aspirante != null) {
+            H2DB.eliminarAspirantePorCedula(cedula);
+            return "Aspirante eliminado:\n" + mostrarInformacionDetallada3(aspirante);
+        } else {
+            return "No se encontró ningún aspirante con esa cédula.";
+        }
     }
 
     public void promedioEdadAspirantes() {
@@ -315,21 +345,29 @@ public class BolsaEmpleo {
     }
 
     public String eliminarAspirantesPorExperiencia(int minExperiencia) {
-        try {
-            List<Aspirante> aspirantes = obtenerAspirantes();
+        List<Aspirante> aspirantes = H2DB.consultarAspirantes();
+        List<Aspirante> aspirantesEliminados = new ArrayList<>();
 
-            aspirantes.removeIf(aspirante -> aspirante.getExperiencia() < minExperiencia);
-
-            StringBuilder result = new StringBuilder("Aspirantes con al menos " + minExperiencia + " años de experiencia eliminados:\n");
-            for (Aspirante aspirante : aspirantes) {
-                result.append(mostrarInformacionDetallada3(aspirante));
+        int i = 0;
+        while (i < aspirantes.size()) {
+            Aspirante aspirante = aspirantes.get(i);
+            if (aspirante.getExperiencia() < minExperiencia) {
+                aspirantesEliminados.add(aspirante);
+                H2DB.eliminarAspirantePorCedula(aspirante.getCedula());
+                aspirantes.remove(i);
+            } else {
+                i++;
             }
-
-            return result.toString();
-        } catch (NumberFormatException e) {
-            return "La experiencia mínima debe ser un número válido.";
         }
+
+        StringBuilder result = new StringBuilder("Aspirantes con menos de " + minExperiencia + " años de experiencia eliminados:\n");
+        for (Aspirante aspirante : aspirantesEliminados) {
+            result.append(mostrarInformacionDetallada3(aspirante));
+        }
+
+        return result.toString();
     }
+
 
     public double calcularPromedioEdadAspirantes() {
         List<Aspirante> aspirantes = obtenerAspirantes();
@@ -345,7 +383,5 @@ public class BolsaEmpleo {
 
         return (double) sumaEdades / aspirantes.size();
     }
-
-
 
 }
